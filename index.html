@@ -361,6 +361,20 @@
             document.getElementById('newsCategory').selectedIndex = 0;
         }
 
+        // Katzenvideos ein-/ausklappen
+        function toggleVideos() {
+            const videoSection = document.getElementById('videoSection');
+            const collapseBtn = document.getElementById('collapseBtn');
+            
+            videoSection.classList.toggle('collapsed');
+            
+            if (videoSection.classList.contains('collapsed')) {
+                collapseBtn.innerHTML = '▶';
+            } else {
+                collapseBtn.innerHTML = '◀';
+            }
+        }
+
         // Seite laden
         renderNews();
     </script>
