@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Politik Kurs - News der Woche</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            height: calc(100vh - 40px);
+        }
+
+        .news-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            overflow-y: auto;
+        }
+
+        .video-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        h2 {
+            color: #34495e;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 1.5rem;
+            opacity: 0.8;
+        }
+
+        .add-news {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            border: 2px solid #e3f2fd;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #2c3e50;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e1e8ed;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        button {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .news-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .news-item {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            padding: 20px;
+            border-radius: 15px;
+            color: white;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .news-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .news-item h3 {
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+        }
+
+        .news-meta {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            margin-bottom: 15px;
+        }
+
+        .news-description {
+            line-height: 1.6;
+        }
+
+        .delete-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 5px 15px;
+            font-size: 14px;
+            margin-top: 15px;
+            border-radius: 15px;
+        }
+
+        .delete-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: none;
+        }
+
+        .cat-video {
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .cat-video:hover {
+            transform: scale(1.02);
+        }
+
+        iframe {
+            width: 100%;
+            height: 200px;
+            border: none;
+        }
+
+        .video-title {
+            text-align: center;
+            color: #2c3e50;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .news-section, .video-section {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="news-section">
+            <h1>Die News der Woche</h1>
+            <h2>Politik bei Herrn Walkenhorst</h2>
+            
+            <div class="add-news">
+                <div class="form-group">
+                    <label for="newsTitle">Titel der Nachricht:</label>
+                    <input type="text" id="newsTitle" placeholder="z.B. Bundestagsdebatte über Klimapaket">
+                </div>
+                
+                <div class="form-group">
+                    <label for="newsCategory">Kategorie:</label>
+                    <select id="newsCategory">
+                        <option value="Innenpolitik">Innenpolitik</option>
+                        <option value="Außenpolitik">Außenpolitik</option>
+                        <option value="Wirtschaft">Wirtschaft</option>
+                        <option value="Umwelt">Umwelt</option>
+                        <option value="Europa">Europa</option>
+                        <option value="Sonstiges">Sonstiges</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="newsDescription">Beschreibung:</label>
+                    <textarea id="newsDescription" placeholder="Kurze Zusammenfassung der wichtigsten Punkte..."></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="studentName">Dein Name:</label>
+                    <input type="text" id="studentName" placeholder="z.B. Max Mustermann">
+                </div>
+                
+                <button onclick="addNews()">Nachricht hinzufügen</button>
+            </div>
+            
+            <div class="news-list" id="newsList">
+                <!-- Beispiel-News -->
+                <div class="news-item">
+                    <h3>Koalitionsverhandlungen in Berlin</h3>
+                    <div class="news-meta">Innenpolitik • Hinzugefügt von Anna M. • Heute</div>
+                    <div class="news-description">Die Verhandlungen zwischen den Koalitionspartnern über das neue Haushaltsgesetz gehen in die entscheidende Phase. Streitpunkte sind vor allem die Ausgaben für Bildung und Infrastruktur.</div>
+                    <button class="delete-btn" onclick="deleteNews(this)">Löschen</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="video-section">
+            <div class="video-title">🐱 Entspannende Katzenvideos</div>
+            
+            <div class="cat-video">
+                <iframe src="https://www.youtube.com/embed/hFZFjoX2cGg?autoplay=1&mute=1&loop=1&playlist=hFZFjoX2cGg" allowfullscreen></iframe>
+            </div>
+            
+            <div class="cat-video">
+                <iframe src="https://www.youtube.com/embed/J---aiyznGQ?autoplay=1&mute=1&loop=1&playlist=J---aiyznGQ" allowfullscreen></iframe>
+            </div>
+            
+            <div class="cat-video">
+                <iframe src="https://www.youtube.com/embed/W86cTIoMv2U?autoplay=1&mute=1&loop=1&playlist=W86cTIoMv2U" allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // **WICHTIGER HINWEIS**: Diese Version kann noch nicht live zwischen verschiedenen Computern synchronisieren!
+        // Für echte Live-Funktionalität benötigt ihr:
+        // 1. Einen Server (z.B. mit Node.js, Python Flask/Django, oder PHP)
+        // 2. Eine Datenbank (z.B. MySQL, MongoDB, oder Firebase)
+        // 3. WebSocket-Verbindungen für Live-Updates
+        
+        let newsData = JSON.parse(localStorage.getItem('politikNews') || '[]');
+
+        function addNews() {
+            const title = document.getElementById('newsTitle').value.trim();
+            const category = document.getElementById('newsCategory').value;
+            const description = document.getElementById('newsDescription').value.trim();
+            const studentName = document.getElementById('studentName').value.trim();
+
+            if (!title || !description || !studentName) {
+                alert('Bitte fülle alle Felder aus!');
+                return;
+            }
+
+            const news = {
+                id: Date.now(),
+                title: title,
+                category: category,
+                description: description,
+                studentName: studentName,
+                date: new Date().toLocaleDateString('de-DE'),
+                time: new Date().toLocaleTimeString('de-DE', {hour: '2-digit', minute: '2-digit'})
+            };
+
+            newsData.unshift(news);
+            saveToLocalStorage();
+            renderNews();
+            clearForm();
+            
+            // Simuliere "Live-Benachrichtigung"
+            showNotification(`Neue Nachricht von ${studentName} hinzugefügt!`);
+        }
+
+        function saveToLocalStorage() {
+            // Daten werden lokal im Browser gespeichert
+        }
+
+        function renderNews() {
+            const newsList = document.getElementById('newsList');
+            newsList.innerHTML = '';
+
+            if (newsData.length === 0) {
+                newsList.innerHTML = '<div style="text-align: center; color: #666; padding: 40px;">Noch keine Nachrichten vorhanden. Sei der Erste und füge eine hinzu! 📰</div>';
+                return;
+            }
+
+            newsData.forEach(news => {
+                const newsItem = document.createElement('div');
+                newsItem.className = 'news-item';
+                newsItem.innerHTML = `
+                    <h3>${news.title}</h3>
+                    <div class="news-meta">${news.category} • ${news.studentName} • ${news.date} um ${news.time || 'heute'}</div>
+                    <div class="news-description">${news.description}</div>
+                    <button class="delete-btn" onclick="deleteNews(${news.id})">Löschen</button>
+                `;
+                newsList.appendChild(newsItem);
+            });
+        }
+
+        function deleteNews(newsId) {
+            if (confirm('Möchtest du diese Nachricht wirklich löschen?')) {
+                newsData = newsData.filter(news => news.id !== newsId);
+                renderNews();
+            }
+        }
+
+        function clearForm() {
+            document.getElementById('newsTitle').value = '';
+            document.getElementById('newsDescription').value = '';
+            document.getElementById('studentName').value = '';
+            document.getElementById('newsCategory').selectedIndex = 0;
+        }
+
+        // Seite laden
+        renderNews();
+    </script>
+</body>
+</html>
